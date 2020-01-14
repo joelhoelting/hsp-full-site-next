@@ -11,7 +11,7 @@ import variables from '~/styles/Variables';
 const imageArray = [
   {
     imgUrl: '/static/images/events/1_Landing_Carousel/435_hudson_street',
-    imgAlt: '435 Hudson Street - Roof'
+    imgAlt: '435 Hudson Street - Roof Deck'
   },
   {
     imgUrl: '/static/images/events/1_Landing_Carousel/375_hudson_street',
@@ -27,7 +27,7 @@ const imageArray = [
   },
   {
     imgUrl: '/static/images/events/1_Landing_Carousel/75_varick_street',
-    imgAlt: '75 Varick Street - Roof'
+    imgAlt: '75 Varick Street - Roof Deck'
   }
 ];
 
