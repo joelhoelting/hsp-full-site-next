@@ -7,6 +7,7 @@ const routes = [
   { link: 'availability', path: 'availabilities' },
   { link: 'contact', path: 'contact' },
   { link: 'news', path: 'news' },
+  { link: 'events', path: 'events' },
   { link: 'login', path: 'https://portal.hudsonsquareproperties.com' }
 ];
 
