@@ -10,7 +10,7 @@ const buildings = [
     floorSizes: '40,000 – 80,000 SF',
     about:
       '75 Varick Street, also known as One Hudson Square, is one of the premier locations in Hudson Square. At 17-stories, this landmark building designed by Ely Jacques Kahn and completed in 1929, offers prime views of downtown, the Hudson River and along Canal Street. The 1 million-square-foot building offers modern office spaces and large floor plates sought after by TAMI tenants. Floors range from 80,000 square feet in the building’s base to 40,000 square feet at the top. Slab-to-slab heights are 12 feet-1 inches on most office floors. A new building lobby designed by the architectural firm A+I, is home to Blue Bottle Coffee Cafe and rotating art exhibitions. Notable tenants include Horizon Media, Harry’s Razors and Intent Media. Construction of a rooftop amenity, open to tenants, is currently underway with completion anticipated in 2019.',
-    factSheet: '/static/images/buildings/1_75_Varick/75Varick_Building_1.9.19.pdf',
+    factSheet: '/static/images/buildings/1_75_Varick/75Varick_Building_1.15.20_v2.pdf',
     ceilingHeights: ['Basement: 15′-1″ – 18′-4″', 'Floors: 2-16: 12′-4″', 'Floor: 17: 12′-6″'],
     mapCenter: { lat: 40.723416, lng: -74.006834 },
     header: {
