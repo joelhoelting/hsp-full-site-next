@@ -7,6 +7,8 @@ import Fade from 'react-reveal/Fade';
 import Context from '~/config/Context';
 import { buildings } from '~/data/buildings';
 import { mediaMin } from '~/styles/MediaQueries';
+
+import Redirect from '~/components/Redirect';
 import FloorplanSection from '~/components/pages/listing/FloorplanSection';
 import NonResponsiveSlider from '~/components/sliders/NonResponsiveSlider';
 import ContactSection from '~/components/pages/listing/ContactSection';
@@ -169,130 +171,135 @@ const Listing = () => {
   let listing = fullAvailabilityData.find(obj => {
     return building_slug === obj.acf.building_slug && suite_floor_slug === obj.acf.suite_floor_slug;
   });
-  let listingID = listing.id;
-  listing = listing.acf;
 
-  const listingSliderArray = [listing.photo_1, listing.photo_2, listing.photo_3, listing.photo_4, listing.photo_5]
-    .filter(obj => obj)
-    .map(obj => {
-      return {
-        imgUrl: obj.url,
-        imgAlt: obj.alt
-      };
-    });
+  if (listing) {
+    let listingID = listing.id;
+    listing = listing.acf;
 
-  const filteredContactData = contactData
-    .map(contact => {
-      const { full_name, phone_number, email_address } = contact;
-      const idArray = [];
+    const listingSliderArray = [listing.photo_1, listing.photo_2, listing.photo_3, listing.photo_4, listing.photo_5]
+      .filter(obj => obj)
+      .map(obj => {
+        return {
+          imgUrl: obj.url,
+          imgAlt: obj.alt
+        };
+      });
 
-      const { associated_listings } = contact;
-      associated_listings.length > 0 && associated_listings.forEach(listing => idArray.push(listing.ID));
+    const filteredContactData = contactData
+      .map(contact => {
+        const { full_name, phone_number, email_address } = contact;
+        const idArray = [];
 
-      return {
-        full_name,
-        phone_number,
-        email_address,
-        idArray
-      };
-    })
-    .filter(contact => contact.idArray.includes(listingID));
+        const { associated_listings } = contact;
+        associated_listings.length > 0 && associated_listings.forEach(listing => idArray.push(listing.ID));
 
-  const { availability, neighborhood, axon, floor, suite, sqft, views } = listing;
+        return {
+          full_name,
+          phone_number,
+          email_address,
+          idArray
+        };
+      })
+      .filter(contact => contact.idArray.includes(listingID));
 
-  return (
-    <ListingWrapper className="container">
-      <Fade>
-        <div className="logo-wrapper">
-          <img
-            className="building-logo"
-            src={building.header.headerLogoBlack}
-            alt={`Logo for building ${building.navTitle}`}
-          />
-          <i className="fas fa-map-marker-alt" />
-          <h3 className="floor-info-mobile">
-            {suite} {floor && `${addOrdinalSuffix(floor)} Floor`}
-          </h3>
-          <button
-            onClick={() => Router.back()}
-            aria-label={`Back to building page: ${building.title}`}
-            title="Go Back"
-          />
-        </div>
-      </Fade>
-      <Fade>
-        <div className="detail-wrapper">
-          <div className="detail-column mobile">
-            <div className="detail-column__section">
-              <p>Type: {listing.type}</p>
-            </div>
-            <div className="detail-column__section">
-              <p>Availability:</p>
-              <p> {availability}</p>
-            </div>
-            <div className="detail-column__section">
-              <p>Sq. Ft:</p>
-              <p> {insertCommas(sqft)} SF</p>
-            </div>
-            <div className="detail-column__section">
-              <p>Neighborhood:</p>
-              <p> {neighborhood}</p>
-            </div>
-            <div className="detail-column__section">
-              <p>Views:</p>
-              <p> {views}</p>
-            </div>
-          </div>
-          <div className="detail-column desktop">
-            <div className="detail-column__section">
-              <h2 className="floor-info-desktop">
-                {suite} {floor && `${addOrdinalSuffix(floor)} Floor`}
-              </h2>
-              <p>Type: {listing.type}</p>
-            </div>
-            <div className="detail-column__section" />
-          </div>
-          <div className="detail-column desktop">
-            <div className="detail-column__section">
-              <p>Availability:</p>
-              <p> {availability}</p>
-            </div>
-            <div className="detail-column__section">
-              <p>Sq. Ft:</p>
-              <p> {insertCommas(sqft)} SF</p>
-            </div>
-          </div>
-          <div className="detail-column desktop">
-            <div className="detail-column__section">
-              <p>Neighborhood:</p>
-              <p> {neighborhood}</p>
-            </div>
-            <div className="detail-column__section">
-              <p>Views:</p>
-              <p> {views}</p>
-            </div>
-          </div>
-          <div className="detail-column">
-            <img src={axon} alt={`Axon for ${suite} in ${building.navTitle}`} />
-          </div>
-        </div>
-      </Fade>
-      <Fade>
-        <FloorplanSection listing={listing} />
-      </Fade>
-      {listingSliderArray.length > 0 && (
+    const { availability, neighborhood, axon, floor, suite, sqft, views } = listing;
+
+    return (
+      <ListingWrapper className="container">
         <Fade>
-          <NonResponsiveSlider imgArray={listingSliderArray} />
+          <div className="logo-wrapper">
+            <img
+              className="building-logo"
+              src={building.header.headerLogoBlack}
+              alt={`Logo for building ${building.navTitle}`}
+            />
+            <i className="fas fa-map-marker-alt" />
+            <h3 className="floor-info-mobile">
+              {suite} {floor && `${addOrdinalSuffix(floor)} Floor`}
+            </h3>
+            <button
+              onClick={() => Router.back()}
+              aria-label={`Back to building page: ${building.title}`}
+              title="Go Back"
+            />
+          </div>
         </Fade>
-      )}
-      <Fade>
-        <ContactSection contactData={filteredContactData} />
-      </Fade>
-      <Spacer />
-      <ScrollUp />
-      <CopyrightFooter />
-    </ListingWrapper>
-  );
+        <Fade>
+          <div className="detail-wrapper">
+            <div className="detail-column mobile">
+              <div className="detail-column__section">
+                <p>Type: {listing.type}</p>
+              </div>
+              <div className="detail-column__section">
+                <p>Availability:</p>
+                <p> {availability}</p>
+              </div>
+              <div className="detail-column__section">
+                <p>Sq. Ft:</p>
+                <p> {insertCommas(sqft)} SF</p>
+              </div>
+              <div className="detail-column__section">
+                <p>Neighborhood:</p>
+                <p> {neighborhood}</p>
+              </div>
+              <div className="detail-column__section">
+                <p>Views:</p>
+                <p> {views}</p>
+              </div>
+            </div>
+            <div className="detail-column desktop">
+              <div className="detail-column__section">
+                <h2 className="floor-info-desktop">
+                  {suite} {floor && `${addOrdinalSuffix(floor)} Floor`}
+                </h2>
+                <p>Type: {listing.type}</p>
+              </div>
+              <div className="detail-column__section" />
+            </div>
+            <div className="detail-column desktop">
+              <div className="detail-column__section">
+                <p>Availability:</p>
+                <p> {availability}</p>
+              </div>
+              <div className="detail-column__section">
+                <p>Sq. Ft:</p>
+                <p> {insertCommas(sqft)} SF</p>
+              </div>
+            </div>
+            <div className="detail-column desktop">
+              <div className="detail-column__section">
+                <p>Neighborhood:</p>
+                <p> {neighborhood}</p>
+              </div>
+              <div className="detail-column__section">
+                <p>Views:</p>
+                <p> {views}</p>
+              </div>
+            </div>
+            <div className="detail-column">
+              <img src={axon} alt={`Axon for ${suite} in ${building.navTitle}`} />
+            </div>
+          </div>
+        </Fade>
+        <Fade>
+          <FloorplanSection listing={listing} />
+        </Fade>
+        {listingSliderArray.length > 0 && (
+          <Fade>
+            <NonResponsiveSlider imgArray={listingSliderArray} />
+          </Fade>
+        )}
+        <Fade>
+          <ContactSection contactData={filteredContactData} />
+        </Fade>
+        <Spacer />
+        <ScrollUp />
+        <CopyrightFooter />
+      </ListingWrapper>
+    );
+  } else {
+    return <Redirect redirectPath="/availabilities" customMsg="Listing does not exist. Redirecting..." />;
+  }
 };
 
 Listing.getInitialProps = async function(ctx) {
