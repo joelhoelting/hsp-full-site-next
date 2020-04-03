@@ -42,18 +42,8 @@ export default class MyApp extends App {
       const browserName = ua.browser.name;
 
       // Get Availability Data
-      let availabilityData = [];
-      const availabilityRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_availability');
-      const pages = availabilityRes.headers.get('x-wp-totalpages');
-      for (let i = 1; i <= pages; i++) {
-        availabilityData.push(
-          await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_availability?page=' + i).then(availabilityData => {
-            return availabilityData.json();
-          })
-        );
-      }
-
-      availabilityData = availabilityData.reduce((acc, curr) => acc.push(...curr) && acc, []);
+      let availabilityRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_availability?per_page=100');
+      let availabilityData = await availabilityRes.json();
       const fullAvailabilityData = availabilityData;
 
       availabilityData = availabilityData.map(el => {
@@ -61,51 +51,22 @@ export default class MyApp extends App {
       });
 
       // Get News Data
-      let newsData = [];
-      const newsRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_news');
-      const newsPages = newsRes.headers.get('x-wp-totalpages');
-      for (let i = 1; i <= newsPages; i++) {
-        newsData.push(
-          await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_news?page=' + i).then(newsData => {
-            return newsData.json();
-          })
-        );
-      }
-      newsData = newsData.reduce((acc, curr) => acc.push(...curr) && acc, []);
+      let newsRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_news?per_page=100');
+      let newsData = await newsRes.json();
       newsData = newsData.map(el => {
         return el.acf;
       });
 
       // Get Press Data
-      let pressData = [];
-      const pressRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_press');
-      const pressPages = pressRes.headers.get('x-wp-totalpages');
-      for (let i = 1; i <= pressPages; i++) {
-        pressData.push(
-          await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_press?page=' + i).then(pressData => {
-            return pressData.json();
-          })
-        );
-      }
-
-      pressData = pressData.reduce((acc, curr) => acc.push(...curr) && acc, []);
+      let pressRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_press?per_page=100');
+      let pressData = await pressRes.json();
       pressData = pressData.map(el => {
         return el.acf;
       });
 
       // Get Contact Data
-      let contactData = [];
-      const contactRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_contacts');
-      const contactPages = contactRes.headers.get('x-wp-totalpages');
-      for (let i = 1; i <= contactPages; i++) {
-        contactData.push(
-          await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_contacts?page=' + i).then(contactData => {
-            return contactData.json();
-          })
-        );
-      }
-
-      contactData = contactData.reduce((acc, curr) => acc.push(...curr) && acc, []);
+      let contactRes = await fetch('https://cms.dbox.com/wp-json/wp/v2/hsp_contacts?per_page=100');
+      let contactData = await contactRes.json();
       contactData = contactData.map(el => {
         return el.acf;
       });
